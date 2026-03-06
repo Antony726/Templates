@@ -882,6 +882,18 @@
     transition: color 0.2s, background 0.2s;
   }
   .mobile-menu a:hover { color: var(--accent); background: rgba(255,77,0,0.05); }
+  .mobile-quote-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--accent); color: var(--black);
+    border: none; padding: 18px 32px;
+    margin: 12px 24px 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: calc(100% - 48px);
+  }
+  .mobile-quote-btn:hover { background: var(--white); }
 
   /* ── TABLET ── */
   @media (max-width: 1100px) {
@@ -1335,6 +1347,7 @@
   <a href="#content" onclick="closeMobileMenu()">Content</a>
   <a href="#packages" onclick="closeMobileMenu()">Packages</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <button class="mobile-quote-btn" onclick="closeMobileMenu();openEstimator();">Get a Quote</button>
 </div>
 
 <!-- HERO -->
