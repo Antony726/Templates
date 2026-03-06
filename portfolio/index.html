@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NEXUS STUDIO — Web & Content Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black: #080808;
+    --white: #f4f0e8;
+    --accent: #ff4d00;
+    --accent2: #00e5ff;
+    --gray: #1a1a1a;
+    --mid: #333;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none; z-index: 9997;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 48px;
+    border-bottom: 1px solid rgba(244,240,232,0.08);
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    border: none; padding: 12px 24px;
+    transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 140px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,77,0,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,77,0,0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridMove 20s linear infinite;
+  }
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 80px 80px; }
+  }
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s forwards 0.3s;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 180px);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s forwards 0.5s;
+  }
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(244,240,232,0.5);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-top: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s forwards 0.7s;
+  }
+  .hero-btns {
+    display: flex; gap: 20px;
+    margin-top: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s forwards 0.9s;
+  }
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    padding: 18px 40px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.2s, background 0.3s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translate(-3px,-3px); }
+  .btn-ghost {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    border: 1px solid rgba(244,240,232,0.3);
+    padding: 18px 40px;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--white); transform: translate(-3px,-3px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 48px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.3);
+    display: flex; align-items: center; gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s forwards 1.2s;
+  }
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: rgba(244,240,232,0.3);
+  }
+
+  .hero-marquee {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(244,240,232,0.08);
+    padding: 16px 0;
+    background: rgba(255,77,0,0.04);
+  }
+  .marquee-inner {
+    display: flex; gap: 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 6px;
+    color: rgba(244,240,232,0.2);
+    padding: 0 48px;
+  }
+  .marquee-item span { color: var(--accent); margin-right: 48px; }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION STYLES */
+  section { padding: 120px 48px; }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+    display: block;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+  }
+
+  /* ABOUT SPLIT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--gray);
+    overflow: hidden;
+  }
+  .about-visual::before {
+    content: 'NX';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 320px;
+    color: rgba(255,77,0,0.07);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    line-height: 1;
+  }
+  .about-visual-accent {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+    border: 1px solid rgba(244,240,232,0.08);
+  }
+  .stat {
+    padding: 28px;
+    border: 1px solid rgba(244,240,232,0.06);
+    background: rgba(244,240,232,0.02);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.4);
+    margin-top: 6px;
+  }
+  .about-text { color: rgba(244,240,232,0.65); line-height: 1.8; font-size: 15px; }
+
+  /* SERVICES */
+  .services-section { background: var(--gray); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 2px;
+    margin-top: 64px;
+  }
+  .service-card {
+    background: var(--black);
+    padding: 52px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    border-bottom: 3px solid transparent;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,77,0,0.06), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover { transform: translateY(-8px); border-bottom-color: var(--accent); }
+  .service-card:hover::before { opacity: 1; }
+  .service-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(244,240,232,0.05);
+    position: absolute;
+    top: 20px; right: 32px;
+    line-height: 1;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-num { color: rgba(255,77,0,0.12); }
+  .service-icon {
+    width: 48px; height: 48px;
+    background: rgba(255,77,0,0.1);
+    border: 1px solid rgba(255,77,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+    font-size: 20px;
+  }
+  .service-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+  .service-desc {
+    color: rgba(244,240,232,0.55);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .service-features {
+    margin-top: 28px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .feature {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(244,240,232,0.4);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .feature::before {
+    content: '→';
+    color: var(--accent);
+  }
+
+  /* DIVIDER FULL */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(244,240,232,0.15), transparent);
+  }
+
+  /* WEB SERVICES */
+  .web-section {
+    position: relative;
+    overflow: hidden;
+  }
+  .web-bg-text {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 300px;
+    color: rgba(0,229,255,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .web-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 64px;
+  }
+  .web-features {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .web-feature {
+    padding: 28px 32px;
+    border: 1px solid rgba(244,240,232,0.07);
+    background: rgba(244,240,232,0.02);
+    display: flex; gap: 20px;
+    align-items: flex-start;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+  }
+  .web-feature:hover {
+    border-color: rgba(0,229,255,0.3);
+    background: rgba(0,229,255,0.04);
+  }
+  .web-feature-icon {
+    font-size: 22px;
+    min-width: 32px;
+  }
+  .web-feature-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .web-feature-desc {
+    font-size: 13px;
+    color: rgba(244,240,232,0.45);
+    line-height: 1.7;
+  }
+  .web-showcase {
+    position: relative;
+    background: var(--gray);
+    aspect-ratio: 9/10;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .web-showcase-inner {
+    width: 85%;
+    background: var(--black);
+    border: 1px solid rgba(244,240,232,0.12);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .browser-bar {
+    background: rgba(244,240,232,0.06);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(244,240,232,0.07);
+  }
+  .browser-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .browser-url {
+    background: rgba(244,240,232,0.06);
+    flex: 1; margin-left: 8px;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: rgba(244,240,232,0.3);
+    padding: 4px 10px;
+  }
+  .browser-content {
+    padding: 24px;
+    min-height: 240px;
+  }
+  .mock-hero-bar {
+    height: 12px; background: rgba(255,77,0,0.3);
+    border-radius: 2px; width: 60%; margin-bottom: 8px;
+  }
+  .mock-bar {
+    height: 8px;
+    background: rgba(244,240,232,0.07);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+  .mock-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px; margin-top: 16px;
+  }
+  .mock-card {
+    height: 60px;
+    background: rgba(244,240,232,0.05);
+    border-radius: 2px;
+    border-top: 2px solid rgba(255,77,0,0.4);
+  }
+  .web-showcase::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,255,0.06), transparent 60%);
+    pointer-events: none;
+  }
+
+  /* CONTENT PACKAGES */
+  .packages {
+    background: linear-gradient(180deg, var(--black), rgba(255,77,0,0.04), var(--black));
+  }
+  .packages-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 64px;
+  }
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .package-card {
+    border: 1px solid rgba(244,240,232,0.08);
+    padding: 48px 36px;
+    position: relative;
+    transition: border-color 0.4s;
+    overflow: hidden;
+  }
+  .package-card.featured {
+    border-color: var(--accent);
+    background: rgba(255,77,0,0.04);
+  }
+  .package-card:hover { border-color: rgba(255,77,0,0.5); }
+  .package-badge {
+    position: absolute; top: -1px; right: 32px;
+    background: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    padding: 6px 14px;
+  }
+  .package-tier {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.4);
+    margin-bottom: 16px;
+  }
+  .package-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .package-card.featured .package-name { color: var(--accent); }
+  .package-tagline {
+    font-size: 13px;
+    color: rgba(244,240,232,0.5);
+    line-height: 1.6;
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(244,240,232,0.08);
+  }
+  .package-items {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-bottom: 40px;
+  }
+  .package-item {
+    font-size: 13px;
+    color: rgba(244,240,232,0.7);
+    display: flex; align-items: flex-start; gap: 12px;
+    line-height: 1.5;
+  }
+  .package-item .check { color: var(--accent); font-size: 14px; min-width: 16px; }
+  .package-cta {
+    display: block;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px;
+    text-decoration: none;
+    border: 1px solid rgba(244,240,232,0.2);
+    color: var(--white);
+    transition: all 0.3s;
+  }
+  .package-card.featured .package-cta {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+  .package-cta:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--black);
+  }
+
+  /* GEAR */
+  .gear-section { background: var(--gray); }
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    margin-top: 48px;
+  }
+  .gear-item {
+    background: var(--black);
+    padding: 36px 28px;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .gear-item:hover { border-bottom-color: var(--accent2); }
+  .gear-icon { font-size: 32px; margin-bottom: 16px; }
+  .gear-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .gear-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(244,240,232,0.35);
+    letter-spacing: 1px;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+  }
+  .contact-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(255,77,0,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .contact-section .section-title { font-size: clamp(56px, 9vw, 120px); }
+  .contact-desc {
+    max-width: 560px;
+    margin: 28px auto 52px;
+    color: rgba(244,240,232,0.5);
+    line-height: 1.8;
+    font-size: 15px;
+  }
+  .contact-options {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .contact-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.5);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.3s;
+  }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link .arr { transition: transform 0.3s; }
+  .contact-link:hover .arr { transform: translateX(4px); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid rgba(244,240,232,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(244,240,232,0.25);
+    letter-spacing: 1px;
+  }
+  .footer-socials { display: flex; gap: 20px; }
+  .footer-social {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.3);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-social:hover { color: var(--accent); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .js-loaded .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .js-loaded .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* CLIENTS SECTION */
+  .clients-section {
+    padding: 100px 48px;
+    background: var(--black);
+    overflow: hidden;
+  }
+  .clients-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 72px;
+  }
+  .clients-header p {
+    max-width: 340px;
+    color: rgba(244,240,232,0.4);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .clients-wheel-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0 40px;
+  }
+  .clients-track {
+    display: flex;
+    gap: 20px;
+    animation: clientsScroll 28s linear infinite;
+    width: max-content;
+  }
+  .clients-track:hover { animation-play-state: paused; }
+  @keyframes clientsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .client-card {
+    position: relative;
+    width: 220px;
+    min-width: 220px;
+    height: 200px;
+    border: 1px solid rgba(244,240,232,0.07);
+    background: rgba(244,240,232,0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    cursor: default;
+    transition: border-color 0.4s, background 0.4s, transform 0.4s;
+    overflow: hidden;
+  }
+  .client-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--card-color, rgba(255,77,0,0.08)), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .client-card:hover {
+    border-color: var(--card-color, rgba(255,77,0,0.5));
+    background: rgba(244,240,232,0.04);
+    transform: translateY(-10px) scale(1.03);
+  }
+  .client-card:hover::before { opacity: 1; }
+  .client-card::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--card-color, var(--accent));
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    padding: 6px;
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .client-card:hover::after { transform: translateY(0); }
+  .client-emoji {
+    font-size: 44px;
+    filter: drop-shadow(0 4px 24px rgba(255,77,0,0.3));
+    transition: transform 0.4s;
+    line-height: 1;
+  }
+  .client-card:hover .client-emoji { transform: scale(1.15) rotate(-5deg); }
+  .client-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0 16px;
+    color: rgba(244,240,232,0.85);
+    transition: color 0.3s;
+  }
+  .client-card:hover .client-name { color: var(--white); }
+  .clients-fade-left, .clients-fade-right {
+    position: absolute; top: 0; bottom: 0; width: 120px;
+    pointer-events: none; z-index: 2;
+  }
+  .clients-fade-left {
+    left: 0;
+    background: linear-gradient(to right, var(--black), transparent);
+  }
+  .clients-fade-right {
+    right: 0;
+    background: linear-gradient(to left, var(--black), transparent);
+  }
+  .clients-count-row {
+    display: flex; gap: 0;
+    margin-top: 56px;
+    border: 1px solid rgba(244,240,232,0.07);
+    overflow: hidden;
+  }
+  .clients-count-item {
+    flex: 1;
+    padding: 28px 24px;
+    border-right: 1px solid rgba(244,240,232,0.07);
+    display: flex; align-items: center; gap: 16px;
+    transition: background 0.3s;
+  }
+  .clients-count-item:last-child { border-right: none; }
+  .clients-count-item:hover { background: rgba(255,77,0,0.04); }
+  .clients-count-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .clients-count-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(244,240,232,0.45);
+    line-height: 1.5;
+  }
+  .clients-count-text strong {
+    display: block;
+    color: var(--white);
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* ── HAMBURGER MENU ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+  .mobile-menu {
+    display: none;
+    position: fixed; top: 72px; left: 0; right: 0;
+    background: rgba(8,8,8,0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(244,240,232,0.1);
+    z-index: 99;
+    padding: 0;
+    flex-direction: column;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.7);
+    text-decoration: none;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(244,240,232,0.07);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent); background: rgba(255,77,0,0.05); }
+
+  /* ── TABLET ── */
+  @media (max-width: 1100px) {
+    .packages-grid { grid-template-columns: 1fr 1fr; }
+    .clients-count-row { flex-wrap: wrap; }
+    .clients-count-item { min-width: 50%; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 20px; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 72px 20px; }
+    .hero { padding: 110px 20px 100px; }
+    .hero h1 { font-size: clamp(56px, 14vw, 90px); }
+    .hero-sub { font-size: 14px; }
+    .hero-btns { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-ghost { text-align: center; padding: 16px 28px; }
+    .hero-scroll { display: none; }
+
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .about-visual { aspect-ratio: 16/9; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+
+    .web-grid { grid-template-columns: 1fr; gap: 40px; }
+    .web-showcase { display: none; }
+
+    .clients-header { flex-direction: column; gap: 16px; }
+    .clients-header p { max-width: 100%; }
+    .client-card { width: 170px; min-width: 170px; height: 170px; }
+    .client-emoji { font-size: 34px; }
+    .client-name { font-size: 13px; }
+    .clients-count-row { flex-direction: column; }
+    .clients-count-item { border-right: none; border-bottom: 1px solid rgba(244,240,232,0.07); }
+
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 36px 28px; }
+
+    .gear-grid { grid-template-columns: 1fr 1fr; }
+
+    .packages-grid { grid-template-columns: 1fr; }
+    .packages-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .package-card { padding: 36px 28px; }
+
+    .contact-options { flex-direction: column; align-items: center; gap: 24px; }
+
+    footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .footer-socials { gap: 16px; }
+
+    .section-title { font-size: clamp(40px, 10vw, 64px); }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: clamp(48px, 16vw, 72px); }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .gear-grid { grid-template-columns: 1fr 1fr; }
+    .clients-count-row { flex-direction: column; }
+  }
+
+  /* ── PRICE ESTIMATOR MODAL ── */
+  .estimator-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.35s;
+    padding: 20px;
+  }
+  .estimator-overlay.open { opacity: 1; pointer-events: all; }
+  .estimator-box {
+    background: #111;
+    border: 1px solid rgba(255,77,0,0.3);
+    width: 100%; max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.35s;
+  }
+  .estimator-overlay.open .estimator-box { transform: translateY(0); }
+  .est-header {
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .est-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 2px;
+    line-height: 1;
+  }
+  .est-title span { color: var(--accent); }
+  .est-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: rgba(244,240,232,0.4);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .est-close {
+    background: none; border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+    width: 36px; height: 36px;
+    font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .est-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STEPS */
+  .est-steps {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .est-step-dot {
+    flex: 1; padding: 12px 8px;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(244,240,232,0.25);
+    border-right: 1px solid rgba(255,255,255,0.07);
+    transition: color 0.3s;
+    position: relative;
+  }
+  .est-step-dot:last-child { border-right: none; }
+  .est-step-dot.active { color: var(--accent); }
+  .est-step-dot.done { color: rgba(0,229,255,0.7); }
+  .est-step-dot::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .est-step-dot.active::after { transform: scaleX(1); }
+
+  /* PAGES */
+  .est-body { padding: 32px 36px; }
+  .est-page { display: none; }
+  .est-page.active { display: block; }
+  .est-q {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 17px;
+    margin-bottom: 6px;
+  }
+  .est-hint {
+    font-size: 12px; color: rgba(244,240,232,0.4);
+    margin-bottom: 20px;
+    font-family: 'Space Mono', monospace;
+  }
+  .est-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .est-opt {
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.02);
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .est-opt:hover { border-color: rgba(255,77,0,0.5); background: rgba(255,77,0,0.05); }
+  .est-opt.selected { border-color: var(--accent); background: rgba(255,77,0,0.1); }
+  .est-opt .opt-icon { font-size: 22px; flex-shrink: 0; }
+  .est-opt .opt-label { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .est-opt .opt-sub { font-size: 11px; color: rgba(244,240,232,0.4); margin-top: 2px; }
+
+  /* TOGGLE YES/NO */
+  .est-toggle-row {
+    display: flex; gap: 10px; margin-bottom: 28px;
+  }
+  .est-toggle {
+    flex: 1; padding: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.02);
+    cursor: pointer; text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .est-toggle:hover { border-color: rgba(255,77,0,0.5); }
+  .est-toggle.selected { border-color: var(--accent); background: rgba(255,77,0,0.1); color: var(--accent); }
+
+  /* NAV BUTTONS */
+  .est-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px; padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .est-btn-back {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(244,240,232,0.4);
+    background: none; border: none; cursor: pointer;
+    transition: color 0.2s;
+  }
+  .est-btn-back:hover { color: var(--white); }
+  .est-btn-next {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--black); background: var(--accent);
+    border: none; padding: 14px 32px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .est-btn-next:hover { background: var(--white); }
+  .est-btn-next:disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.3); cursor: default; }
+
+  /* RESULT PAGE */
+  .est-result-header {
+    text-align: center; margin-bottom: 32px;
+  }
+  .est-result-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .est-result-range {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px; color: var(--white); line-height: 1;
+  }
+  .est-result-range span { color: var(--accent); }
+  .est-result-note {
+    font-size: 12px; color: rgba(244,240,232,0.4);
+    margin-top: 6px; font-family: 'Space Mono', monospace;
+  }
+  .est-breakdown {
+    display: flex; flex-direction: column; gap: 2px;
+    margin: 24px 0;
+  }
+  .est-breakdown-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid transparent;
+  }
+  .est-breakdown-row.included { border-left-color: var(--accent); }
+  .est-breakdown-row .row-name { font-size: 13px; font-weight: 600; }
+  .est-breakdown-row .row-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; color: var(--accent);
+  }
+  .est-breakdown-row .row-sub { font-size: 11px; color: rgba(244,240,232,0.4); margin-top: 2px; }
+  .est-result-actions {
+    display: flex; gap: 10px; margin-top: 24px;
+  }
+  .est-result-actions a, .est-result-actions button {
+    flex: 1; text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 16px; text-decoration: none;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .est-btn-print { background: rgba(255,255,255,0.07); color: var(--white); border: 1px solid rgba(255,255,255,0.15) !important; }
+  .est-btn-print:hover { background: rgba(255,255,255,0.12); }
+  .est-btn-contact { background: var(--accent); color: var(--black); }
+  .est-btn-contact:hover { background: var(--accent2); }
+
+  @media print {
+    body > *:not(.estimator-overlay) { display: none !important; }
+    .estimator-overlay { position: static !important; background: white !important; backdrop-filter: none !important; opacity: 1 !important; pointer-events: all !important; }
+    .estimator-box { border: 1px solid #ccc !important; max-height: none !important; }
+    .est-close, .est-btn-print, .est-btn-back, .est-steps, .est-page:not(.active) { display: none !important; }
+    .est-result-range { color: #000 !important; }
+    .est-result-label, .est-result-note, .est-hint { color: #555 !important; }
+    .est-breakdown-row .row-name { color: #000 !important; }
+    .est-breakdown-row .row-price { color: #c43b00 !important; }
+    .est-breakdown-row .row-sub { color: #666 !important; }
+    .est-title, .est-title span { color: #000 !important; }
+    .est-subtitle { color: #555 !important; }
+  }
+
+  /* ── ESTIMATOR OVERLAY ── */
+  .est-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .est-overlay.open { opacity: 1; pointer-events: all; }
+  .est-box {
+    background: #111;
+    border: 1px solid rgba(255,77,0,0.3);
+    width: 100%; max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 48px 40px;
+    position: relative;
+  }
+  @media(max-width:600px){ .est-box{ padding: 32px 20px; } }
+  .est-close {
+    position: absolute; top: 20px; right: 24px;
+    background: none; border: none;
+    color: rgba(244,240,232,0.4);
+    font-size: 28px; line-height: 1;
+    cursor: pointer; transition: color 0.2s;
+  }
+  .est-close:hover { color: var(--accent); }
+  .est-step { display: none; }
+  .est-step.active { display: block; }
+  .est-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .est-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; line-height: 1.1;
+    margin-bottom: 28px;
+  }
+  .est-progress {
+    display: flex; gap: 6px; margin-bottom: 36px;
+  }
+  .est-prog-dot {
+    height: 3px; flex: 1;
+    background: rgba(244,240,232,0.1);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+  .est-prog-dot.done { background: var(--accent); }
+  .est-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px; margin-bottom: 32px;
+  }
+  .est-opt {
+    border: 1px solid rgba(244,240,232,0.1);
+    background: rgba(244,240,232,0.02);
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    border-radius: 2px;
+  }
+  .est-opt:hover { border-color: rgba(255,77,0,0.4); background: rgba(255,77,0,0.04); }
+  .est-opt.selected { border-color: var(--accent); background: rgba(255,77,0,0.1); }
+  .est-opt-icon { font-size: 22px; flex-shrink: 0; }
+  .est-opt-text { font-size: 13px; font-weight: 600; line-height: 1.3; }
+  .est-opt-sub { font-size: 11px; color: rgba(244,240,232,0.4); margin-top: 2px; font-weight: 400; }
+  .est-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px;
+  }
+  .est-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 28px; border: none;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .est-btn-next { background: var(--accent); color: var(--black); }
+  .est-btn-next:hover { background: var(--white); }
+  .est-btn-back { background: transparent; color: rgba(244,240,232,0.4); border: 1px solid rgba(244,240,232,0.15); }
+  .est-btn-back:hover { color: var(--white); border-color: rgba(244,240,232,0.4); }
+  .est-error {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--accent);
+    letter-spacing: 1px; margin-top: -20px;
+    margin-bottom: 16px; display: none;
+  }
+  /* Result screen */
+  .est-result-header {
+    background: rgba(255,77,0,0.06);
+    border: 1px solid rgba(255,77,0,0.2);
+    padding: 28px 24px; margin-bottom: 24px;
+    text-align: center;
+  }
+  .est-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px; color: var(--accent);
+    line-height: 1;
+  }
+  .est-price-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: rgba(244,240,232,0.4); margin-top: 6px;
+  }
+  .est-breakdown {
+    margin-bottom: 28px;
+  }
+  .est-break-item {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 14px 0;
+    border-bottom: 1px solid rgba(244,240,232,0.06);
+    font-size: 13px;
+  }
+  .est-break-item:last-child { border-bottom: none; }
+  .est-break-name { color: rgba(244,240,232,0.7); }
+  .est-break-val { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--white); }
+  .est-summary-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .est-result-actions {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px;
+  }
+  .est-result-actions .est-btn { flex: 1; min-width: 140px; text-align: center; }
+  .est-btn-print { background: rgba(244,240,232,0.06); color: var(--white); border: 1px solid rgba(244,240,232,0.2); }
+  .est-btn-print:hover { background: rgba(244,240,232,0.12); }
+  .est-btn-wa { background: #25d366; color: #000; }
+  .est-btn-wa:hover { background: #1db954; }
+  /* Print styles */
+  @media print {
+    body > *:not(#estimatorOverlay) { display: none !important; }
+    .est-overlay { position: static; opacity: 1; background: white; }
+    .est-box { border: none; max-height: none; box-shadow: none; background: white; color: #000; }
+    .est-close, .est-result-actions { display: none; }
+    .est-price { color: #ff4d00; }
+    .est-break-name { color: #333; }
+    .est-break-val { color: #000; }
+    .est-summary-label { color: #ff4d00; }
+    .est-result-header { background: #fff3f0; }
+  }
+</style>
+</head>
+<body>
+
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NEX<span>US</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#web">Web Studio</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openEstimator()">Get a Quote</button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#web" onclick="closeMobileMenu()">Web Studio</a>
+  <a href="#content" onclick="closeMobileMenu()">Content</a>
+  <a href="#packages" onclick="closeMobileMenu()">Packages</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-label">Creative Studio — Est. 2024</div>
+  <h1>
+    WE BUILD<br>
+    <span class="outline">BRANDS</span><br>
+    THAT <span class="accent">SELL.</span>
+  </h1>
+  <p class="hero-sub">Two powerful divisions under one roof — cutting-edge web development & scroll-stopping content creation. Your growth is our product.</p>
+  <div class="hero-btns">
+    <a href="#web" class="btn-primary">Explore Services</a>
+    <a href="#contact" class="btn-ghost">Let's Talk</a>
+  </div>
+  <div class="hero-scroll">Scroll to explore</div>
+  <div class="hero-marquee">
+    <div class="marquee-inner">
+      <span class="marquee-item">Web Development <span>✦</span></span>
+      <span class="marquee-item">Brand Strategy <span>✦</span></span>
+      <span class="marquee-item">Content Creation <span>✦</span></span>
+      <span class="marquee-item">Video Editing <span>✦</span></span>
+      <span class="marquee-item">Social Media Growth <span>✦</span></span>
+      <span class="marquee-item">Script Writing <span>✦</span></span>
+      <span class="marquee-item">Web Development <span>✦</span></span>
+      <span class="marquee-item">Brand Strategy <span>✦</span></span>
+      <span class="marquee-item">Content Creation <span>✦</span></span>
+      <span class="marquee-item">Video Editing <span>✦</span></span>
+      <span class="marquee-item">Social Media Growth <span>✦</span></span>
+      <span class="marquee-item">Script Writing <span>✦</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="padding: 120px 48px;">
+  <div class="about reveal">
+    <div class="about-visual">
+      <div class="about-visual-accent"></div>
+    </div>
+    <div>
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">TWO<br>STUDIOS.<br><span style="color:var(--accent)">ONE VISION.</span></h2>
+      <p class="about-text" style="margin-top: 32px;">
+        NEXUS Studio is where strategy meets execution. We run two elite divisions — a <strong style="color:var(--white)">Web Development Studio</strong> that engineers high-converting digital experiences, and a <strong style="color:var(--white)">Content Creation Agency</strong> armed with pro gear and creative firepower.
+        <br><br>
+        We don't just deliver work. We engineer growth. Whether you need a website that converts visitors into customers or content that stops thumbs mid-scroll, we're the team behind the results.
+      </p>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Websites Launched</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Videos Produced</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3X</div>
+          <div class="stat-label">Avg. Client Growth</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">24H</div>
+          <div class="stat-label">Response Time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WEB STUDIO -->
+<section id="web" class="web-section">
+  <div class="web-bg-text">WEB</div>
+  <div class="reveal">
+    <div class="section-label">Division 01</div>
+    <h2 class="section-title">WEB<br><span style="color:var(--accent2)">STUDIO</span></h2>
+  </div>
+  <div class="web-grid reveal">
+    <div>
+      <p style="color: rgba(244,240,232,0.55); font-size: 15px; line-height: 1.8; margin-bottom: 40px;">
+        We design and develop websites that don't just look good — they work hard. Every pixel is intentional, every interaction is purposeful, every second of load time matters.
+      </p>
+      <div class="web-features">
+        <div class="web-feature">
+          <div class="web-feature-icon">⚡</div>
+          <div>
+            <div class="web-feature-title">High-Performance Websites</div>
+            <div class="web-feature-desc">Blazing fast, SEO-optimised sites built to rank and convert visitors into real customers.</div>
+          </div>
+        </div>
+        <div class="web-feature">
+          <div class="web-feature-icon">🎨</div>
+          <div>
+            <div class="web-feature-title">Custom UI/UX Design</div>
+            <div class="web-feature-desc">Bespoke designs that reflect your brand identity and guide users toward action.</div>
+          </div>
+        </div>
+        <div class="web-feature">
+          <div class="web-feature-icon">🛒</div>
+          <div>
+            <div class="web-feature-title">E-Commerce & Funnels</div>
+            <div class="web-feature-desc">Online stores and sales funnels engineered to maximise revenue at every step.</div>
+          </div>
+        </div>
+        <div class="web-feature">
+          <div class="web-feature-icon">🔧</div>
+          <div>
+            <div class="web-feature-title">Cutting-Edge Tech Integration</div>
+            <div class="web-feature-desc">CRM, automation, AI chat, booking systems — we plug in the tech that scales your business.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="web-showcase">
+      <div class="web-showcase-inner">
+        <div class="browser-bar">
+          <div class="browser-dot" style="background:#ff5f56"></div>
+          <div class="browser-dot" style="background:#ffbd2e"></div>
+          <div class="browser-dot" style="background:#27c93f"></div>
+          <div class="browser-url">yourclient.com</div>
+        </div>
+        <div class="browser-content">
+          <div class="mock-hero-bar"></div>
+          <div class="mock-bar" style="width: 80%"></div>
+          <div class="mock-bar" style="width: 50%; margin-bottom: 20px;"></div>
+          <div style="display:flex; gap:8px; margin-bottom:20px;">
+            <div style="height:32px; width:100px; background: rgba(255,77,0,0.5); border-radius:2px;"></div>
+            <div style="height:32px; width:80px; background: rgba(244,240,232,0.08); border-radius:2px;"></div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+            <div class="mock-card"></div>
+          </div>
+          <div style="margin-top: 16px;">
+            <div class="mock-bar" style="width: 90%"></div>
+            <div class="mock-bar" style="width: 70%"></div>
+            <div class="mock-bar" style="width: 40%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS SECTION -->
+<section class="clients-section">
+  <div class="clients-header reveal">
+    <div>
+      <div class="section-label">Who We Work With</div>
+      <h2 class="section-title" style="font-size: clamp(40px,5.5vw,80px);">INDUSTRIES<br><span style="color:var(--accent2)">WE SERVE</span></h2>
+    </div>
+    <p>From local businesses to growing brands — we build websites tailored to your industry, your customers, and your goals.</p>
+  </div>
+  <div class="clients-wheel-wrap reveal">
+    <div class="clients-fade-left"></div>
+    <div class="clients-fade-right"></div>
+    <div class="clients-track" id="clientsTrack">
+      <!-- Set 1 -->
+      <div class="client-card" style="--card-color: rgba(255,182,193,0.4);" data-label="Book Now →">
+        <div class="client-emoji">💅</div>
+        <div class="client-name">Beauty Salons &amp; Parlours</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,140,0,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🏋️</div>
+        <div class="client-name">Gyms &amp; Fitness Centers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(0,200,180,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🦷</div>
+        <div class="client-name">Dental Clinics</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(100,149,237,0.4);" data-label="Enrol Now →">
+        <div class="client-emoji">📚</div>
+        <div class="client-name">Coaching &amp; Tuition Centers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,77,0,0.4);" data-label="Order Now →">
+        <div class="client-emoji">🍽️</div>
+        <div class="client-name">Restaurants &amp; Cafes</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(144,238,144,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🐾</div>
+        <div class="client-name">Pet Clinics &amp; Grooming</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(218,165,32,0.4);" data-label="Explore →">
+        <div class="client-emoji">🏠</div>
+        <div class="client-name">Real Estate Agents</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(186,85,211,0.4);" data-label="Get a Quote →">
+        <div class="client-emoji">🛋️</div>
+        <div class="client-name">Interior Designers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,20,147,0.4);" data-label="Plan Now →">
+        <div class="client-emoji">💍</div>
+        <div class="client-name">Event &amp; Wedding Planners</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(0,229,255,0.4);" data-label="Explore →">
+        <div class="client-emoji">✈️</div>
+        <div class="client-name">Travel Agencies</div>
+      </div>
+      <!-- Set 2 (duplicate for infinite scroll) -->
+      <div class="client-card" style="--card-color: rgba(255,182,193,0.4);" data-label="Book Now →">
+        <div class="client-emoji">💅</div>
+        <div class="client-name">Beauty Salons &amp; Parlours</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,140,0,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🏋️</div>
+        <div class="client-name">Gyms &amp; Fitness Centers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(0,200,180,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🦷</div>
+        <div class="client-name">Dental Clinics</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(100,149,237,0.4);" data-label="Enrol Now →">
+        <div class="client-emoji">📚</div>
+        <div class="client-name">Coaching &amp; Tuition Centers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,77,0,0.4);" data-label="Order Now →">
+        <div class="client-emoji">🍽️</div>
+        <div class="client-name">Restaurants &amp; Cafes</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(144,238,144,0.4);" data-label="Book Now →">
+        <div class="client-emoji">🐾</div>
+        <div class="client-name">Pet Clinics &amp; Grooming</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(218,165,32,0.4);" data-label="Explore →">
+        <div class="client-emoji">🏠</div>
+        <div class="client-name">Real Estate Agents</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(186,85,211,0.4);" data-label="Get a Quote →">
+        <div class="client-emoji">🛋️</div>
+        <div class="client-name">Interior Designers</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(255,20,147,0.4);" data-label="Plan Now →">
+        <div class="client-emoji">💍</div>
+        <div class="client-name">Event &amp; Wedding Planners</div>
+      </div>
+      <div class="client-card" style="--card-color: rgba(0,229,255,0.4);" data-label="Explore →">
+        <div class="client-emoji">✈️</div>
+        <div class="client-name">Travel Agencies</div>
+      </div>
+    </div>
+  </div>
+  <div class="clients-count-row reveal">
+    <div class="clients-count-item">
+      <div class="clients-count-dot"></div>
+      <div class="clients-count-text"><strong>10+ Industries</strong>Served across the board</div>
+    </div>
+    <div class="clients-count-item">
+      <div class="clients-count-dot" style="background:var(--accent2)"></div>
+      <div class="clients-count-text"><strong>Local to National</strong>Businesses of all sizes</div>
+    </div>
+    <div class="clients-count-item">
+      <div class="clients-count-dot" style="background:#a78bfa"></div>
+      <div class="clients-count-text"><strong>Industry-Specific</strong>Tailored website design</div>
+    </div>
+    <div class="clients-count-item">
+      <div class="clients-count-dot" style="background:#34d399"></div>
+      <div class="clients-count-text"><strong>Always Growing</strong>New niches every month</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTENT SERVICES -->
+<section id="content" class="services-section">
+  <div class="reveal">
+    <div class="section-label">Division 02</div>
+    <h2 class="section-title">CONTENT<br><span style="color:var(--accent)">AGENCY</span></h2>
+    <p style="color: rgba(244,240,232,0.5); max-width: 560px; line-height: 1.8; font-size: 15px; margin-top: 24px;">
+      We turn cameras into conversion machines. From raw footage to fully produced viral content — pick the level of involvement that works for you.
+    </p>
+  </div>
+  <div class="services-grid reveal">
+
+    <!-- SERVICE 1 -->
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">✂️</div>
+      <div class="service-tag">Tier One</div>
+      <div class="service-name">PURE<br>EDIT</div>
+      <div class="service-desc">You've shot the footage. We make it shine. Send us your raw clips and we'll transform them into polished, platform-ready videos that demand attention.</div>
+      <div class="service-features">
+        <div class="feature">Professional colour grading</div>
+        <div class="feature">Sound design & music sync</div>
+        <div class="feature">Motion graphics & captions</div>
+        <div class="feature">Format optimised for each platform</div>
+        <div class="feature">2 revision rounds included</div>
+      </div>
+    </div>
+
+    <!-- SERVICE 2 -->
+    <div class="service-card" style="border-color: rgba(255,77,0,0.2);">
+      <div class="service-num">02</div>
+      <div class="service-icon">💡</div>
+      <div class="service-tag">Tier Two</div>
+      <div class="service-name">IDEA +<br>EDIT</div>
+      <div class="service-desc">We give you the competitive edge with trending ideas, unique angles, scripted guidance — then edit your footage into content that grows your audience faster.</div>
+      <div class="service-features">
+        <div class="feature">Trend & competitor analysis</div>
+        <div class="feature">Custom content strategy</div>
+        <div class="feature">Full scripting & shot list</div>
+        <div class="feature">Professional edit of your footage</div>
+        <div class="feature">Growth analytics & reporting</div>
+        <div class="feature">Monthly performance review</div>
+      </div>
+    </div>
+
+    <!-- SERVICE 3 -->
+    <div class="service-card" style="background: rgba(255,77,0,0.04); border-color: rgba(255,77,0,0.35);">
+      <div class="service-num">03</div>
+      <div class="service-icon">🎬</div>
+      <div class="service-tag">Tier Three — All-Inclusive</div>
+      <div class="service-name">FULL<br>FRAME</div>
+      <div class="service-desc">The complete package. We generate the ideas, come to you with pro gear, shoot the content ourselves, edit it, and publish it. You just show up and look the part.</div>
+      <div class="service-features">
+        <div class="feature">End-to-end content production</div>
+        <div class="feature">On-location shoot with pro gear</div>
+        <div class="feature">Concept to publish pipeline</div>
+        <div class="feature">Multi-platform content calendar</div>
+        <div class="feature">Community growth strategy</div>
+        <div class="feature">Dedicated content manager</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GEAR -->
+<section class="gear-section">
+  <div class="reveal">
+    <div class="section-label">Our Arsenal</div>
+    <h2 class="section-title" style="font-size: clamp(40px, 5vw, 72px);">PRO GEAR.<br>CINEMA QUALITY.</h2>
+  </div>
+  <div class="gear-grid reveal">
+    <div class="gear-item">
+      <div class="gear-icon">📱</div>
+      <div class="gear-name">iPhone 17 Pro</div>
+      <div class="gear-desc">4K ProRes · Cinematic Mode</div>
+    </div>
+    <div class="gear-item">
+      <div class="gear-icon">📱</div>
+      <div class="gear-name">iPhone 16</div>
+      <div class="gear-desc">4K HDR · Action Mode</div>
+    </div>
+    <div class="gear-item">
+      <div class="gear-icon">📱</div>
+      <div class="gear-name">iPhone 14</div>
+      <div class="gear-desc">4K Dolby Vision · Slo-Mo</div>
+    </div>
+    <div class="gear-item">
+      <div class="gear-icon">🎙️</div>
+      <div class="gear-name">Pro Tripods</div>
+      <div class="gear-desc">Rock-solid stability · Smooth panning</div>
+    </div>
+    <div class="gear-item">
+      <div class="gear-icon">🔆</div>
+      <div class="gear-name">Studio Lighting</div>
+      <div class="gear-desc">Soft boxes · LED panels</div>
+    </div>
+    <div class="gear-item">
+      <div class="gear-icon">🎵</div>
+      <div class="gear-name">Audio Setup</div>
+      <div class="gear-desc">Lavalier · Boom mic</div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="packages">
+  <div class="reveal">
+    <div class="packages-header">
+      <div>
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">CHOOSE<br>YOUR PLAN</h2>
+      </div>
+      <p style="max-width: 320px; color: rgba(244,240,232,0.4); font-size: 14px; line-height: 1.7; align-self: flex-end;">
+        Transparent pricing, no hidden fees. Every plan is customisable. Let's discuss what works for your business.
+      </p>
+    </div>
+  </div>
+  <div class="packages-grid reveal">
+
+    <div class="package-card">
+      <div class="package-tier">Starter</div>
+      <div class="package-name">LAUNCH PAD</div>
+      <div class="package-tagline">Perfect for businesses just getting started with their digital presence.</div>
+      <div class="package-items">
+        <div class="package-item"><span class="check">✦</span> 5-page responsive website</div>
+        <div class="package-item"><span class="check">✦</span> Basic SEO setup</div>
+        <div class="package-item"><span class="check">✦</span> Contact form & Google Maps</div>
+        <div class="package-item"><span class="check">✦</span> 4 edited short-form videos/mo</div>
+        <div class="package-item"><span class="check">✦</span> Social media setup</div>
+      </div>
+      <a href="#contact" class="package-cta">Get Started →</a>
+    </div>
+
+    <div class="package-card featured">
+      <div class="package-badge">Most Popular</div>
+      <div class="package-tier">Growth</div>
+      <div class="package-name">FULL FORCE</div>
+      <div class="package-tagline">For businesses ready to scale fast with a full digital and content strategy.</div>
+      <div class="package-items">
+        <div class="package-item"><span class="check">✦</span> Custom website + e-commerce</div>
+        <div class="package-item"><span class="check">✦</span> Full SEO & analytics setup</div>
+        <div class="package-item"><span class="check">✦</span> Idea + Edit package (monthly)</div>
+        <div class="package-item"><span class="check">✦</span> 12 videos/month with strategy</div>
+        <div class="package-item"><span class="check">✦</span> Growth analytics report</div>
+        <div class="package-item"><span class="check">✦</span> Priority support</div>
+      </div>
+      <a href="#contact" class="package-cta">Get Started →</a>
+    </div>
+
+    <div class="package-card">
+      <div class="package-tier">Elite</div>
+      <div class="package-name">DOMINATE</div>
+      <div class="package-tagline">Complete brand takeover. We run your digital world end-to-end.</div>
+      <div class="package-items">
+        <div class="package-item"><span class="check">✦</span> Full custom web ecosystem</div>
+        <div class="package-item"><span class="check">✦</span> Tech integrations (CRM, AI, etc.)</div>
+        <div class="package-item"><span class="check">✦</span> Full Frame content package</div>
+        <div class="package-item"><span class="check">✦</span> On-location shoots weekly</div>
+        <div class="package-item"><span class="check">✦</span> Dedicated account manager</div>
+        <div class="package-item"><span class="check">✦</span> Monthly strategy calls</div>
+      </div>
+      <a href="#contact" class="package-cta">Get Started →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-bg"></div>
+  <div class="reveal">
+    <div class="section-label" style="justify-content: center;">Start Your Journey</div>
+    <h2 class="section-title">LET'S<br>BUILD.</h2>
+    <p class="contact-desc">Ready to grow your business? Let's have a real conversation about what you need and how we can make it happen.</p>
+    <a href="/cdn-cgi/l/email-protection#a8c0cdc4c4c7e8c6cdd0dddbdbdcddccc1c786cbc7c5" class="btn-primary" style="display: inline-block; margin-bottom: 48px;"><span class="__cf_email__" data-cfemail="fe969b929291be909b868b8d8d8a8b9a9791d09d9193">[email&#160;protected]</span></a>
+    <div class="contact-options">
+      <a href="#" class="contact-link">Instagram <span class="arr">→</span></a>
+      <a href="#" class="contact-link">WhatsApp <span class="arr">→</span></a>
+      <a href="#" class="contact-link">LinkedIn <span class="arr">→</span></a>
+      <a href="#" class="contact-link">YouTube <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NEX<span>US</span> STUDIO</div>
+  <div class="footer-copy">© 2024 Nexus Studio. All rights reserved.</div>
+  <div class="footer-socials">
+    <a href="#" class="footer-social">IG</a>
+    <a href="#" class="footer-social">YT</a>
+    <a href="#" class="footer-social">LI</a>
+    <a href="#" class="footer-social">WA</a>
+  </div>
+</footer>
+
+<script>
+  
+
+
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Scroll reveal — add js-loaded so CSS hides elements, then reveal on scroll
+  document.body.classList.add('js-loaded');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<!-- PRICE ESTIMATOR OVERLAY -->
+<div class="est-overlay" id="estimatorOverlay">
+  <div class="est-box">
+    <button class="est-close" onclick="closeEstimator()">&#10005;</button>
+    <div class="est-progress">
+      <div class="est-prog-dot" id="pd1"></div>
+      <div class="est-prog-dot" id="pd2"></div>
+      <div class="est-prog-dot" id="pd3"></div>
+      <div class="est-prog-dot" id="pd4"></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="est-step active" id="step1">
+      <div class="est-label">Step 1 of 4</div>
+      <div class="est-title">What type of<br>business do you run?</div>
+      <div class="est-options" id="bizOptions">
+        <div class="est-opt" data-val="salon" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128133;</span><div><div class="est-opt-text">Beauty Salon / Parlour</div></div></div>
+        <div class="est-opt" data-val="gym" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#127947;</span><div><div class="est-opt-text">Gym / Fitness Center</div></div></div>
+        <div class="est-opt" data-val="dental" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#129463;</span><div><div class="est-opt-text">Dental Clinic</div></div></div>
+        <div class="est-opt" data-val="coaching" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128218;</span><div><div class="est-opt-text">Coaching / Tuition</div></div></div>
+        <div class="est-opt" data-val="restaurant" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#127373;</span><div><div class="est-opt-text">Restaurant / Cafe</div></div></div>
+        <div class="est-opt" data-val="pet" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128062;</span><div><div class="est-opt-text">Pet Clinic / Grooming</div></div></div>
+        <div class="est-opt" data-val="realestate" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#127968;</span><div><div class="est-opt-text">Real Estate Agent</div></div></div>
+        <div class="est-opt" data-val="interior" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128715;</span><div><div class="est-opt-text">Interior Designer</div></div></div>
+        <div class="est-opt" data-val="events" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128141;</span><div><div class="est-opt-text">Event / Wedding Planner</div></div></div>
+        <div class="est-opt" data-val="travel" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#9992;</span><div><div class="est-opt-text">Travel Agency</div></div></div>
+        <div class="est-opt" data-val="creator" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#127909;</span><div><div class="est-opt-text">Content Creator</div><div class="est-opt-sub">YouTuber / Influencer</div></div></div>
+        <div class="est-opt" data-val="other" onclick="selectOpt(this,'bizOptions')"><span class="est-opt-icon">&#128188;</span><div><div class="est-opt-text">Other Business</div></div></div>
+      </div>
+      <div class="est-error" id="err1">Please select your business type</div>
+      <div class="est-nav"><span></span><button class="est-btn est-btn-next" onclick="nextStep(1)">Next &rarr;</button></div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="est-step" id="step2">
+      <div class="est-label">Step 2 of 4</div>
+      <div class="est-title">Tell us about<br>your business</div>
+      <div class="est-summary-label" style="margin-bottom:12px;">Business Scale</div>
+      <div class="est-options" id="sizeOptions">
+        <div class="est-opt" data-val="small" onclick="selectOpt(this,'sizeOptions')"><span class="est-opt-icon">&#127807;</span><div><div class="est-opt-text">Small / Startup</div><div class="est-opt-sub">Just getting started</div></div></div>
+        <div class="est-opt" data-val="local" onclick="selectOpt(this,'sizeOptions')"><span class="est-opt-icon">&#128205;</span><div><div class="est-opt-text">Local Business</div><div class="est-opt-sub">Established locally</div></div></div>
+        <div class="est-opt" data-val="growing" onclick="selectOpt(this,'sizeOptions')"><span class="est-opt-icon">&#128200;</span><div><div class="est-opt-text">Growing Brand</div><div class="est-opt-sub">Expanding reach</div></div></div>
+        <div class="est-opt" data-val="large" onclick="selectOpt(this,'sizeOptions')"><span class="est-opt-icon">&#127970;</span><div><div class="est-opt-text">Large Business</div><div class="est-opt-sub">Multiple locations</div></div></div>
+      </div>
+      <div class="est-error" id="err2a">Please select business scale</div>
+      <div class="est-summary-label" style="margin-bottom:12px;margin-top:20px;">Do you need a website?</div>
+      <div class="est-options" id="webOptions">
+        <div class="est-opt" data-val="no" onclick="selectOpt(this,'webOptions')"><span class="est-opt-icon">&#128683;</span><div><div class="est-opt-text">No Website</div><div class="est-opt-sub">Content only</div></div></div>
+        <div class="est-opt" data-val="basic" onclick="selectOpt(this,'webOptions')"><span class="est-opt-icon">&#128196;</span><div><div class="est-opt-text">Basic Website</div><div class="est-opt-sub">Info + contact</div></div></div>
+        <div class="est-opt" data-val="full" onclick="selectOpt(this,'webOptions')"><span class="est-opt-icon">&#128187;</span><div><div class="est-opt-text">Full Website</div><div class="est-opt-sub">Custom design + features</div></div></div>
+        <div class="est-opt" data-val="ecom" onclick="selectOpt(this,'webOptions')"><span class="est-opt-icon">&#128722;</span><div><div class="est-opt-text">E-Commerce</div><div class="est-opt-sub">Online store + payments</div></div></div>
+      </div>
+      <div class="est-error" id="err2b">Please select website option</div>
+      <div class="est-nav">
+        <button class="est-btn est-btn-back" onclick="prevStep(2)">&larr; Back</button>
+        <button class="est-btn est-btn-next" onclick="nextStep(2)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="est-step" id="step3">
+      <div class="est-label">Step 3 of 4</div>
+      <div class="est-title">Do you need a<br>content plan?</div>
+      <div class="est-options" id="contentOptions">
+        <div class="est-opt" data-val="none" onclick="selectOpt(this,'contentOptions')"><span class="est-opt-icon">&#128683;</span><div><div class="est-opt-text">No Content Plan</div><div class="est-opt-sub">Website only</div></div></div>
+        <div class="est-opt" data-val="pure" onclick="selectOpt(this,'contentOptions')"><span class="est-opt-icon">&#9986;</span><div><div class="est-opt-text">Pure Edit</div><div class="est-opt-sub">You shoot, we edit</div></div></div>
+        <div class="est-opt" data-val="idea" onclick="selectOpt(this,'contentOptions')"><span class="est-opt-icon">&#128161;</span><div><div class="est-opt-text">Idea + Edit</div><div class="est-opt-sub">Strategy + script + edit</div></div></div>
+        <div class="est-opt" data-val="fullframe" onclick="selectOpt(this,'contentOptions')"><span class="est-opt-icon">&#127909;</span><div><div class="est-opt-text">Full Frame</div><div class="est-opt-sub">We shoot, edit and publish</div></div></div>
+      </div>
+      <div class="est-error" id="err3">Please select a content option</div>
+      <div class="est-nav">
+        <button class="est-btn est-btn-back" onclick="prevStep(3)">&larr; Back</button>
+        <button class="est-btn est-btn-next" onclick="nextStep(3)">Next &rarr;</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="est-step" id="step4">
+      <div class="est-label">Step 4 of 4</div>
+      <div class="est-title">How long do you<br>need the service?</div>
+      <div class="est-options" id="durationOptions">
+        <div class="est-opt" data-val="oneoff" onclick="selectOpt(this,'durationOptions')"><span class="est-opt-icon">&#9889;</span><div><div class="est-opt-text">One-Time Project</div><div class="est-opt-sub">Single delivery</div></div></div>
+        <div class="est-opt" data-val="1month" onclick="selectOpt(this,'durationOptions')"><span class="est-opt-icon">&#128197;</span><div><div class="est-opt-text">1 Month</div><div class="est-opt-sub">Short engagement</div></div></div>
+        <div class="est-opt" data-val="3month" onclick="selectOpt(this,'durationOptions')"><span class="est-opt-icon">&#128198;</span><div><div class="est-opt-text">3 Months</div><div class="est-opt-sub">8% discount applied</div></div></div>
+        <div class="est-opt" data-val="6month" onclick="selectOpt(this,'durationOptions')"><span class="est-opt-icon">&#128640;</span><div><div class="est-opt-text">6 Months+</div><div class="est-opt-sub">15% discount applied</div></div></div>
+      </div>
+      <div class="est-error" id="err4">Please select duration</div>
+      <div class="est-nav">
+        <button class="est-btn est-btn-back" onclick="prevStep(4)">&larr; Back</button>
+        <button class="est-btn est-btn-next" onclick="calcEstimate()">Get My Estimate &rarr;</button>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="est-step" id="stepResult">
+      <div class="est-label">Your Estimate</div>
+      <div class="est-title">Here is your<br><span style="color:var(--accent)">price estimate</span></div>
+      <div class="est-result-header">
+        <div class="est-price" id="estTotal">0</div>
+        <div class="est-price-label" id="estPriceLabel">Approximate starting price (INR)</div>
+      </div>
+      <div class="est-summary-label">Breakdown</div>
+      <div class="est-breakdown" id="estBreakdown"></div>
+      <p style="font-family:Space Mono,monospace;font-size:10px;color:rgba(244,240,232,0.3);line-height:1.7;margin-bottom:20px;">
+        * Approximate estimate only. Final pricing depends on scope and requirements.
+      </p>
+      <div class="est-result-actions">
+        <button class="est-btn est-btn-print" onclick="window.print()">Print / Save PDF</button>
+        <button class="est-btn est-btn-wa" onclick="contactWhatsApp()">WhatsApp Us</button>
+        <button class="est-btn est-btn-next" onclick="resetEstimator()">Start Over</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var estSel = {biz:null,size:null,web:null,content:null,duration:null};
+
+  function openEstimator(){
+    document.getElementById('estimatorOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+    showStep(1);
+  }
+  function closeEstimator(){
+    document.getElementById('estimatorOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    document.getElementById('estimatorOverlay').addEventListener('click',function(e){
+      if(e.target===this) closeEstimator();
+    });
+  });
+  function selectOpt(el,groupId){
+    document.querySelectorAll('#'+groupId+' .est-opt').forEach(function(o){o.classList.remove('selected');});
+    el.classList.add('selected');
+    var keyMap={bizOptions:'biz',sizeOptions:'size',webOptions:'web',contentOptions:'content',durationOptions:'duration'};
+    estSel[keyMap[groupId]]=el.getAttribute('data-val');
+  }
+  function showStep(n){
+    document.querySelectorAll('.est-step').forEach(function(s){s.classList.remove('active');});
+    var id=(n==='result')?'stepResult':'step'+n;
+    document.getElementById(id).classList.add('active');
+    var dots=['pd1','pd2','pd3','pd4'];
+    if(n==='result'){
+      dots.forEach(function(d){document.getElementById(d).classList.add('done');});
+    } else {
+      dots.forEach(function(d,i){document.getElementById(d).classList.toggle('done',i<n);});
+    }
+    var box=document.querySelector('.est-box');
+    if(box) box.scrollTop=0;
+  }
+  function nextStep(from){
+    if(from===1 && !estSel.biz){showErr('err1');return;} hideErr('err1');
+    if(from===2 && !estSel.size){showErr('err2a');return;} hideErr('err2a');
+    if(from===2 && !estSel.web){showErr('err2b');return;} hideErr('err2b');
+    if(from===3 && !estSel.content){showErr('err3');return;} hideErr('err3');
+    if(from===4){calcEstimate();return;}
+    showStep(from+1);
+  }
+  function prevStep(from){showStep(from-1);}
+  function showErr(id){document.getElementById(id).style.display='block';}
+  function hideErr(id){document.getElementById(id).style.display='none';}
+
+  function calcEstimate(){
+    if(!estSel.duration){showErr('err4');return;} hideErr('err4');
+    var webP={no:0,basic:8000,full:18000,ecom:30000};
+    var webL={no:'No Website',basic:'Basic Website',full:'Full Custom Website',ecom:'E-Commerce Website'};
+    var conP={none:0,pure:5000,idea:10000,fullframe:20000};
+    var conL={none:'No Content Plan',pure:'Pure Edit',idea:'Idea + Edit',fullframe:'Full Frame'};
+    var sizeM={small:1,local:1.1,growing:1.25,large:1.5};
+    var sizeL={small:'Small / Startup',local:'Local Business',growing:'Growing Brand',large:'Large Business'};
+    var durMo={oneoff:0,'1month':1,'3month':3,'6month':6};
+    var durL={oneoff:'One-Time Project','1month':'1 Month','3month':'3 Months','6month':'6 Months+'};
+    var durD={oneoff:1,'1month':1,'3month':0.92,'6month':0.85};
+    var bizN={salon:'Beauty Salon',gym:'Gym / Fitness',dental:'Dental Clinic',coaching:'Coaching Center',
+              restaurant:'Restaurant / Cafe',pet:'Pet Clinic',realestate:'Real Estate',interior:'Interior Design',
+              events:'Event Planning',travel:'Travel Agency',creator:'Content Creator',other:'Business'};
+    var mult=sizeM[estSel.size];
+    var disc=durD[estSel.duration];
+    var mo=durMo[estSel.duration];
+    var webC=Math.round(webP[estSel.web]*mult);
+    var conC=mo>0?Math.round(conP[estSel.content]*mult*mo*disc):Math.round(conP[estSel.content]*mult);
+    var total=webC+conC;
+    function fmt(n){return n===0?'Included':'Rs.'+n.toLocaleString('en-IN');}
+    var discNote=disc<1?' ('+Math.round((1-disc)*100)+'% discount)':'';
+    var totalStr=total>0?'Rs.'+total.toLocaleString('en-IN'):"Let's Talk";
+    document.getElementById('estTotal').textContent=totalStr;
+    document.getElementById('estBreakdown').innerHTML=
+      row('Business Type',bizN[estSel.biz])+
+      row('Scale',sizeL[estSel.size])+
+      row(webL[estSel.web],fmt(webC))+
+      row(conL[estSel.content]+(mo>0?' x '+mo+' mo':''),fmt(conC)+discNote)+
+      row('Duration',durL[estSel.duration])+
+      '<div class="est-break-item" style="border-top:1px solid rgba(255,77,0,0.3);margin-top:8px;padding-top:16px;">'+
+        '<span class="est-break-name" style="font-weight:700;color:#f4f0e8;">TOTAL ESTIMATE</span>'+
+        '<span class="est-break-val" style="color:var(--accent);font-size:18px;">'+totalStr+'</span>'+
+      '</div>';
+    showStep('result');
+  }
+  function row(label,val){
+    return '<div class="est-break-item"><span class="est-break-name">'+label+'</span><span class="est-break-val">'+val+'</span></div>';
+  }
+  function contactWhatsApp(){
+    var webL={no:'No Website',basic:'Basic Website',full:'Full Website',ecom:'E-Commerce'};
+    var conL={none:'No Content',pure:'Pure Edit',idea:'Idea+Edit',fullframe:'Full Frame'};
+    var sizeL={small:'Small',local:'Local',growing:'Growing',large:'Large'};
+    var durL={oneoff:'One-Time','1month':'1 Month','3month':'3 Months','6month':'6 Months+'};
+    var bizN={salon:'Beauty Salon',gym:'Gym',dental:'Dental',coaching:'Coaching',restaurant:'Restaurant',
+              pet:'Pet Clinic',realestate:'Real Estate',interior:'Interior',events:'Events',travel:'Travel',creator:'Creator',other:'Business'};
+    var lines=[
+      'Hi NEXUS Studio! I used your price estimator.',
+      '',
+      'Business: '+bizN[estSel.biz],
+      'Scale: '+sizeL[estSel.size],
+      'Website: '+webL[estSel.web],
+      'Content Plan: '+conL[estSel.content],
+      'Duration: '+durL[estSel.duration],
+      '',
+      'Can we discuss further?'
+    ];
+    var msg=encodeURIComponent(lines.join(''));
+    window.open('https://wa.me/91XXXXXXXXXX?text='+msg,'_blank');
+  }
+  function resetEstimator(){
+    estSel={biz:null,size:null,web:null,content:null,duration:null};
+    document.querySelectorAll('.est-opt').forEach(function(o){o.classList.remove('selected');});
+    showStep(1);
+  }
+</script>
+
+</body>
+</html>
